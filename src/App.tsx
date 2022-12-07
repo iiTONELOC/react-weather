@@ -1,10 +1,13 @@
 import './App.css';
+import { Suspense } from 'react';
+import { CurrentConditions } from './components';
+
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <Suspense fallback={<div>Loading...</div>}>
+      <CurrentConditions />
+    </Suspense>
   );
 }
 
