@@ -47,6 +47,9 @@ class WeatherAPI {
                         }
                     };
 
+                // TESTING ONLY SET A TIMEOUT FOR  SECONDS before resolving
+                // setTimeout(() => resolve(response), 10000);
+
                 resolve(response);
             } else {
                 resolve({

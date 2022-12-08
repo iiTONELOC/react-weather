@@ -1,6 +1,7 @@
-import { Component, ErrorInfo } from 'react';
-import type { Props, State } from './interfaces';
 import { DisplayError } from './helpers';
+import type { Props, State } from './interfaces';
+import { Component, ErrorInfo, ReactNode } from 'react';
+
 
 
 class ErrorBoundary extends Component<Props, State> {
@@ -35,7 +36,7 @@ class ErrorBoundary extends Component<Props, State> {
         window.location.reload();
     }
 
-    public render() {
+    public render(): ReactNode {
         if (this.state.hasError) {
             return DisplayError(this.state, this);
         }

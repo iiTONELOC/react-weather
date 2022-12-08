@@ -1,7 +1,8 @@
 import './index.css';
-import App from './App';
 import React from 'react';
+import App from './App/index';
 import ReactDOM from 'react-dom/client';
+import { ErrorBoundary } from './components';
 
 
 const root = ReactDOM.createRoot(
@@ -10,6 +11,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );

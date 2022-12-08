@@ -1,5 +1,5 @@
 import ErrorBoundary from '.';
-import { styles } from './styles';
+import styles from './styles';
 import type { State } from './interfaces';
 
 
