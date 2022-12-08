@@ -1,13 +1,16 @@
 import './App.css';
 import { Suspense } from 'react';
-import { CurrentConditions } from './components';
+import { CurrentConditions, ErrorBoundary } from './components';
 
 
 function App() {
+
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <CurrentConditions />
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <CurrentConditions />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
