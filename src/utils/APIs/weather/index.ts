@@ -1,12 +1,17 @@
-import { LocationAPI } from '../..';
+import weatherCache from './cache';
 import { IApiResponse } from '../interfaces';
-import { IWeather, ICurrentWeatherProps } from './interfaces';
-
+import { IWeather, ICurrentWeatherProps, IWeatherCacheItem } from './interfaces';
+import {
+    handleLatLon, isCacheItemExpired, weatherFetcher, handleSetCache,
+    handleGetItemFromPersistedCache
+} from './helpers';
 
 
 class WeatherAPI {
     private readonly API_KEY: string;
     private readonly API_URL: string;
+    // in-memory and persisted cache
+    protected _cache = weatherCache();
 
     constructor() {
         this.API_KEY = process.env.REACT_APP_WEATHER_KEY || '';
@@ -15,64 +20,50 @@ class WeatherAPI {
 
     public async getCurrentWeather(props: ICurrentWeatherProps):
         Promise<IApiResponse<IWeather>> {
-        const { full } = props;
-        let { lat, lon } = props;
+        let { full, lat, lon } = props;
 
         // CHECK LOCATION
-        // if a lat and lon are not provided, get the user's location
-        if (!lat || !lon) {
-            const coords: GeolocationCoordinates = await LocationAPI.getPosition();
-            const { latitude, longitude } = coords;
+        const coords = await handleLatLon(lat, lon);
 
-            // these could be 0 if there was an error getting the user's location
-            // we leave them at zero because we don't want to use the default
-            // provided by the API.
-            lat = latitude;
-            lon = longitude;
-        }
+        lat = coords.lat;
+        lon = coords.lon;
 
         // fetch and return the weather data
         return new Promise(async resolve => {
             // build the URL
             const URL = this.API_URL
-                // current doesn't provide the hourly, minutely, and daily data
-                // while current-full does
                 + (full ? 'current-full' : 'current')
                 + (lat && lon ? `?lat=${lat}&lon=${lon}` : '');
 
             const token = this.API_KEY;
-
+            const CACHE_KEY = `${lat},${lon}>${full ? 'full' : 'current'}`;
+            const cachedData: IWeatherCacheItem | undefined = this._cache[CACHE_KEY]
+                || handleGetItemFromPersistedCache(CACHE_KEY);
             // ensures we have a valid URL and API key
+
             if (URL && token !== '') {
-                const data = await fetch(URL, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(res => res.json())
-                    .then(json => json)
-                    .catch(_ => null);
+                if (cachedData && !isCacheItemExpired(cachedData)) {
+                    return resolve({
+                        status: 304, data: cachedData.data.weatherData, error: null
+                    });
+                }
 
-                // builds the response object, ensures we have data
-                const response = data ?
-                    { data: data.data, status: data.statusCode, error: null } :
-                    {
-                        status: 500, data: null, error: {
-                            message:
-                                'Error fetching weather data'
-                        }
-                    };
+                // If we made it this far we need to fetch the data and add it to the cache
 
-                // TESTING ONLY SET A TIMEOUT FOR  SECONDS before resolving
-                // setTimeout(() => resolve(response), 10000);
+                // fetch the data
+                const response: IApiResponse<IWeather> = await weatherFetcher(URL, token);
+
+                // set the response in the cache, returns the updated cache and original response
+                const { _response, cache } = handleSetCache(CACHE_KEY, response, this._cache);
+
+                // update the cache
+                this._cache = cache;
 
                 // return the response
-                resolve(response);
+                return resolve(_response);
             } else {
                 // If we made it this far the key is invalid
-                resolve({
+                return resolve({
                     status: 401, data: null, error: {
                         message:
                             'Invalid API Key!'
