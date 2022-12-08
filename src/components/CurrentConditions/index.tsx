@@ -5,7 +5,7 @@ import { WeatherAPI, IApiResponse, IWeather, suspender } from '../../utils';
 // fetch our weather data
 const weatherData = suspender(WeatherAPI.getCurrentWeather({ full: true }));
 
-export default function CurrentConditions() {
+export default function CurrentConditions(): JSX.Element {
     const [isMounted, setIsMounted] = useState<null | boolean>(null);
     const resource: IApiResponse<IWeather> = weatherData.read();
 
