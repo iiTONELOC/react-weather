@@ -1,3 +1,4 @@
+import styles from './styles';
 import { useState, useEffect } from 'react';
 import { WeatherAPI, IApiResponse, IWeather, suspender } from '../../utils';
 
@@ -11,7 +12,6 @@ export default function CurrentConditions(): JSX.Element {
 
     useEffect(() => {
         setIsMounted(true);
-
         return () => setIsMounted(false);
     }, []);
 
@@ -22,7 +22,7 @@ export default function CurrentConditions(): JSX.Element {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMounted]);
     return (
-        <div>
+        <div className={styles.container}>
             <h1 className="text-3xl font-bold underline">
                 Current Conditions
             </h1>

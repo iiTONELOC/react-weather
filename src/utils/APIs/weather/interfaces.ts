@@ -138,3 +138,10 @@ export interface IWeatherCacheItem {
 export interface IWeatherCache {
     [key: string]: IWeatherCacheItem
 };
+
+export interface ILocationName {
+    city?: string,
+    town?: string,
+    county?: string,
+    state: string,
+}
