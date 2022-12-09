@@ -2,10 +2,10 @@ import styles from './styles';
 import Spinner from '../Spinner';
 import { useEffect, useState } from 'react';
 import SpinnerStyles from '../Spinner/styles';
-
+import { useIsMounted, IsMountedType } from '../../hooks';
 
 export default function Loading(): JSX.Element {
-    const [isMounted, setIsMounted] = useState<null | boolean>(null);
+    const { isMounted }: IsMountedType = useIsMounted();
     const [spinnerColor, setSpinnerColor] = useState<string>(SpinnerStyles.greenText);
 
     const threeSecTimeout = () => setTimeout(() => {
@@ -33,14 +33,6 @@ export default function Loading(): JSX.Element {
         clearTimeout(sixSecTimeout());
         clearTimeout(nineSecTimeout());
     };
-
-    useEffect(() => {
-        !isMounted && setIsMounted(true);
-        return () => {
-            isMounted && setIsMounted(false);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     useEffect(() => {
         isMounted && updateLoader();

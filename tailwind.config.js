@@ -20,7 +20,7 @@ module.exports = {
       },
       backgroundImage: {
         'error-container-img': "url('/src/assets/images/bad-weather.jpg')"
-      },
+      }
     }
   },
   plugins: []

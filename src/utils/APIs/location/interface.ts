@@ -1,5 +1,5 @@
-import { IApiResponse } from "../interfaces";
-import { ILocationName } from "../weather/interfaces";
+import { IApiResponse } from '../interfaces';
+import { ILocationName } from '../weather/interfaces';
 
 export interface ILocationAPI {
     getPosition: () => Promise<GeolocationCoordinates>;
