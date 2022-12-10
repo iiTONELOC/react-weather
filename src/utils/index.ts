@@ -3,6 +3,14 @@ export { default as WeatherAPI } from './APIs/weather/';
 export { default as LocationAPI } from './APIs/location/';
 
 
+// export component utils
+export {
+    formatTemperature,
+    calculateHeatIndex,
+    formatWindDirection,
+    metersToMiles
+} from './componentUtils';
+
 
 
 
