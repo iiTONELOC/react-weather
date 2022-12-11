@@ -28,6 +28,7 @@ export const getAddressFromStorage = (props: ILocationHeaderProps): string => {
 export const formatCurrentTime = (): string => {
     const current = new Date(Date.now()).toString();
     // split the string into an array
+    // eslint-disable-next-line
     const [day, month, date, year, time] = current.split(' ');
 
     // get the hour and min from the time string
