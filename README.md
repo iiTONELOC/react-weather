@@ -10,6 +10,10 @@ Get ad-free, accurate, live weather powered by [Azure App Service](https://azure
 
 ![CloudyWeather](./assets/screenshot.png)
 
+## DEMO
+
+You can access the app at [https://iitoneloc.github.io/react-weather/](https://iitoneloc.github.io/react-weather/)
+
 ## Features
 
 Cloudy Weather is a Single Page Web Application (SPA) for fetching current weather conditions and features the following technologies:
