@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/iiTONELOC/react-weather/static/css/main.e936d0b0.css",
+    "main.js": "/iiTONELOC/react-weather/static/js/main.75c47979.js",
+    "static/media/bad-weather.jpg": "/iiTONELOC/react-weather/static/media/bad-weather.f1f8b38238c1f461b722.jpg",
+    "index.html": "/iiTONELOC/react-weather/index.html",
+    "main.e936d0b0.css.map": "/iiTONELOC/react-weather/static/css/main.e936d0b0.css.map",
+    "main.75c47979.js.map": "/iiTONELOC/react-weather/static/js/main.75c47979.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e936d0b0.css",
+    "static/js/main.75c47979.js"
+  ]
+}
