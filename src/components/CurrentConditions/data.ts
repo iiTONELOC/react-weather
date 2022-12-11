@@ -1,4 +1,4 @@
-import { formatTemperature, metersToMiles, calculateHeatIndex, formatWindDirection } from '../../utils';
+import { formatTemperature, metersToMiles, formatWindDirection } from '../../utils';
 
 export const dataFormatter = {
     'feels_like': {
@@ -47,7 +47,7 @@ export const dataFormatter = {
         value: 'wind_speed'
     },
     'wind_deg': {
-        display: 'Wind Dir',
+        display: 'Wind Direction',
         formatter: formatWindDirection,
         value: 'wind_deg'
     },

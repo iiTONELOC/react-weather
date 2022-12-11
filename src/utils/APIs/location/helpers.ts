@@ -80,13 +80,12 @@ export const locationNameFromLatLon = async (lat: number, lon: number):
     Promise<IApiResponse<ILocationName>> => {
     try {
         const URL = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
-
+        const key = `${lat.toFixed(4)},${lon.toFixed(4)}`;
         // look in local storage for the address data before making the API call
         const addressData = localStorage.getItem('addressData');
         if (addressData) {
             // look for the address data in local storage
             const data = JSON.parse(addressData);
-            const key = `${lat},${lon}`;
             const address = data[key];
 
             // we found the address data in local storage so we return it
@@ -115,14 +114,12 @@ export const locationNameFromLatLon = async (lat: number, lon: number):
         // save the address data in local storage
         if (addressData) {
             const data = JSON.parse(addressData);
-            const key = `${lat},${lon}`;
             data[key] = address;
             localStorage.setItem('addressData', JSON.stringify(data));
         } else {
 
             // does not exist in local storage so we create it
             const data = Object.create({});
-            const key = `${lat},${lon}`;
             data[key] = address;
             localStorage.setItem('addressData', JSON.stringify(data));
         }

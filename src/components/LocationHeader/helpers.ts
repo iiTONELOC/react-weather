@@ -21,7 +21,6 @@ export const getAddressFromStorage = (props: ILocationHeaderProps): string => {
             address = `${_city}, ${_state}`;
         }
     }
-
     return address;;
 };
 

@@ -8,6 +8,7 @@ export {
     formatTemperature,
     calculateHeatIndex,
     formatWindDirection,
+    capitalizeWords,
     metersToMiles
 } from './componentUtils';
 
