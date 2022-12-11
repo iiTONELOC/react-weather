@@ -4,7 +4,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(0, 32, 69) auto;
+  scrollbar-color: rgb(19, 19, 19) auto;
 }
 
 *::-webkit-scrollbar {
@@ -16,7 +16,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: rgb(36, 36, 36);
+  background-color: rgb(164, 164, 164);
 }
 
 body {

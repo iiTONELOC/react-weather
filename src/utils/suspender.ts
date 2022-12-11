@@ -1,9 +1,8 @@
 import { IApiResponse } from './APIs/interfaces';
-import { IWeather } from './APIs/weather/interfaces';
 
-export default function suspender(promise: Promise<IApiResponse<IWeather>>) {
+const suspender = <T>(promise: Promise<IApiResponse<T>>): { read: () => IApiResponse<T> } => {
     let status = 'pending';
-    let response: IApiResponse<IWeather>;
+    let response: IApiResponse<T>;
 
 
     const _suspend: Promise<void> = promise.then(
@@ -17,7 +16,7 @@ export default function suspender(promise: Promise<IApiResponse<IWeather>>) {
         }
     );
 
-    const read = (): IApiResponse<IWeather> => {
+    const read = (): IApiResponse<T> => {
         switch (status) {
             case 'pending':
                 throw _suspend;
@@ -29,4 +28,6 @@ export default function suspender(promise: Promise<IApiResponse<IWeather>>) {
     };
 
     return { read };
-}
+};
+
+export default suspender;

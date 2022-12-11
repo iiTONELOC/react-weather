@@ -111,10 +111,10 @@ export interface IWeather {
     timezone: string,
     timezone_offset: number,
     current: ICurrentWeather,
-    minutely?: IMinutelyWeather[],
-    hourly?: IHourlyWeather[],
-    daily?: IDailyWeather[],
-    alerts?: IWeatherAlert[]
+    minutely?: Array<IMinutelyWeather>,
+    hourly?: Array<IHourlyWeather>,
+    daily?: Array<IDailyWeather>,
+    alerts?: Array<IWeatherAlert>
 };
 
 // WEATHER API PROPS
@@ -138,3 +138,10 @@ export interface IWeatherCacheItem {
 export interface IWeatherCache {
     [key: string]: IWeatherCacheItem
 };
+
+export interface ILocationName {
+    city?: string,
+    town?: string,
+    county?: string,
+    state: string,
+}

@@ -1,10 +1,11 @@
 import { LocationAPI, IApiResponse } from '../..';
 import { IWeatherCacheItem, IWeather, IWeatherCache } from './interfaces';
 
+
 // Returns lat and lon if they exist
 // else, it gets the lat and lon from the user's location
 export const handleLatLon = async (lat?: number, lon?: number):
-    Promise<{ lat: number, lon: number }> => {
+    Promise<{ lat: number, lon: number, city?: string, state?: string }> => {
     if (!lat || !lon) {
         const coords: GeolocationCoordinates = await LocationAPI.getPosition();
         const { latitude, longitude } = coords;
@@ -16,11 +17,28 @@ export const handleLatLon = async (lat?: number, lon?: number):
         lon = longitude;
     }
 
+    // we need to find the city name from the lat and lon
+    const cityData = await LocationAPI.getLocationName(lat, lon);
+
+    const { data } = cityData;
+
+    if (data) {
+        const { city, state, town, county } = data;
+        return {
+            lat,
+            lon,
+            city: city || town || county || "City not found",
+            state: state || "State not found"
+        };
+    }
+
     return {
         lat,
-        lon
-    };
+        lon,
+    }
 };
+
+
 
 // check if the cache item is expired
 export const isCacheItemExpired = (item: IWeatherCacheItem): boolean => {

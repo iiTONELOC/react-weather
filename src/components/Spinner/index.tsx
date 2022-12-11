@@ -1,6 +1,11 @@
 import styles from './styles';
 
-export default function Spinner(props: { textColor?: string }): JSX.Element {
+export interface ISpinnerProps {
+    textColor?: string;
+}
+
+
+export default function Spinner(props: ISpinnerProps): JSX.Element {
     const textColor = props.textColor || styles.greenText;
     const spinnerStyles = `${styles.spinner} ${textColor}`;
 

@@ -3,7 +3,8 @@ import { Suspense } from 'react';
 import { CurrentConditions, Loading } from '../components';
 
 
-export default function App(): JSX.Element {
+
+export default function App(): JSX.Element | null { //NOSONAR
     return (
         <Suspense fallback={<Loading />}>
             <CurrentConditions />

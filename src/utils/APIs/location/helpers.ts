@@ -1,3 +1,6 @@
+import { IApiResponse } from '../..';
+import { ILocationName } from '../weather/interfaces';
+
 export const fetchLocationBrowserAPI = async (): Promise<GeolocationPosition | null> => {
     return new Promise((resolve, reject) => {
         try {
@@ -71,4 +74,70 @@ export async function getUserLocation() {
     } as GeolocationPosition;
 
     return coords;
+}
+
+export const locationNameFromLatLon = async (lat: number, lon: number):
+    Promise<IApiResponse<ILocationName>> => {
+    try {
+        const URL = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+        const key = `${lat.toFixed(4)},${lon.toFixed(4)}`;
+        // look in local storage for the address data before making the API call
+        const addressData = localStorage.getItem('addressData');
+        if (addressData) {
+            // look for the address data in local storage
+            const data = JSON.parse(addressData);
+            const address = data[key];
+
+            // we found the address data in local storage so we return it
+            if (address) {
+                return {
+                    status: 304,
+                    data: {
+                        city: address?.city,
+                        state: address.state,
+                        town: address?.town,
+                        county: address?.county
+                    },
+                    error: null
+                };
+            }
+        }
+
+        // address data was not found in local storage so we make the API call
+
+        const response = await fetch(URL);
+        const data = await response.json();
+
+        // extract the address data from the response
+        const { address } = data;
+
+        // save the address data in local storage
+        if (addressData) {
+            const data = JSON.parse(addressData);
+            data[key] = address;
+            localStorage.setItem('addressData', JSON.stringify(data));
+        } else {
+
+            // does not exist in local storage so we create it
+            const data = Object.create({});
+            data[key] = address;
+            localStorage.setItem('addressData', JSON.stringify(data));
+        }
+
+
+        // return the address data
+        return {
+            status: 200,
+            data: address,
+            error: null
+        };
+    } catch (error) {
+        return {
+            status: 500,
+            data: null,
+            error: {
+                message: 'Error getting location name from lat and lon'
+            }
+        };
+    }
 }
